@@ -34,6 +34,7 @@
                     obj.style[key] = leader + "px";
                 }
                 if (leader != target) {
+                    // 防止连续点击
                     flag = false;
                 }
             }
@@ -48,8 +49,10 @@
 
     function getStyle(obj, arrt) {
         if (obj && obj.currentStyle) {
+            // 兼容IE浏览器获取样式
             return obj.currentStyle[arrt];
         } else {
+            // 兼容火狐浏览器
             return getComputedStyle(obj, null)[arrt];
         }
     }
