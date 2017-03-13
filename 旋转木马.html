@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/animate.css"/>
+    <script src="js/animate.js"></script>
+    <script>
+        window.onload = function () {
+            var arrow = document.getElementById("arrow");
+            var arrLeft = document.getElementById("arrLeft");
+            var arrRight = document.getElementById("arrRight");
+            var slide = document.getElementById("slide");
+            var ul = slide.children[0];
+            var lis = ul.children;
+            var wrap=document.getElementById("wrap");
+            var flag=true;
+
+            var arr = [
+                {
+                    "width": 400,
+                    "top": 20,
+                    left: 50,
+                    "opacity": 0.2,
+                    "zIndex": 2
+                },
+                {
+                    "width": 600,
+                    "top": 70,
+                    "left": 0,
+                    "opacity": 0.8,
+                    "zIndex": 3
+                },
+                {
+                    "width": 800,
+                    "top": 120,
+                    "left": 200,
+                    "opacity": 1,
+                    "zIndex": 4
+                },
+                {
+                    "width": 600,
+                    "top": 70,
+                    "left": 600,
+                    "opacity": 0.8,
+                    "zIndex": 3
+                },
+                {
+                    "width": 400,
+                    "top": 20,
+                    "left": 750,
+                    "opacity": 0.2,
+                    "zIndex": 2
+                }
+            ];
+            wrap.onmouseover = function () {
+               animate(arrow,{"opacity":1});
+            }
+            wrap.onmouseout=function(){
+                animate(arrow,{"opacity":0});
+            }
+            assign();
+            function assign(){
+                for (var i = 0; i < lis.length; i++) {
+                    animate(lis[i], arr[i],function(){
+                        flag=true;
+                    });
+                }
+            }
+            arrRight.onclick = function () {
+                if(flag){
+                    flag=false;
+                arr.push(arr.shift());
+                console.log(arr);
+                assign();
+                }
+            }
+            arrLeft.onclick=function() {
+                if (flag) {
+                    flag=false;
+                    arr.unshift(arr.pop());
+                    console.log(arr);
+                    assign();
+                }
+            }
+
+        }
+    </script>
+</head>
+<body>
+<div class="wrap" id="wrap">
+    <div class="slide" id="slide">
+        <ul>
+            <li class="one"><a href="#"><img src="image/bingbing.jpg" alt=""/></a></li>
+            <li class="two"><a href="#"><img src="image/lingengxin.jpg" alt=""/></a></li>
+            <li class="three"><a href="#"><img src="image/yuanyuan.png" alt=""/></a></li>
+            <li class="four"><a href="#"><img src="image/slidepic4.jpg" alt=""/></a></li>
+            <li class="five"><a href="#"><img src="image/slidepic5.jpg" alt=""/></a></li>
+        </ul>
+        <div class="arrow" id="arrow">
+            <a href="javascript:;" class="prev" id="arrLeft"></a>
+            <a href="javascript:;" class="next" id="arrRight"></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 350px;
+            height: 350px;
+            margin: 100px;
+            border: 1px solid #ccc;
+            position: relative;
+        }
+
+        .big {
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 0;
+            left: 360px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            display: none;
+        }
+
+        .mask {
+            width: 175px;
+            height: 175px;
+            background: rgba(255, 255, 0, 0.4);
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: move;
+            display: none;
+        }
+
+        .small {
+            position: relative;
+        }
+
+        .box img {
+            vertical-align: top;
+        }
+
+        #bigBox > img { /*是让里面的图片脱标，为的就是让里面的图片进行一个移动*/
+            position: absolute;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var box=document.getElementById("box");
+            var smallBox=document.getElementById("smallBox");
+            var bigBox=document.getElementById("bigBox");
+            var mask=document.getElementById("mask");
+            var bigImg=document.getElementById("bigImg");
+            box.onmousemove=function(event){
+                // 让遮罩层与大图片显示
+                mask.style.display="block";
+                bigBox.style.display="block";
+                // 兼容性处理
+                event=event||window.event;
+                var pagex=event.pageX||event.clientX+document.documentElement.scrollLeft;
+                var pagey=event.pageY||event.clientY+document.documentElement.scrollTop;
+                // 以小图片的左上角为计算点
+                // console.log(pagex);
+                console.log(box.offsetWidth);
+                var x=pagex-box.offsetLeft;
+                var y=pagey-box.offsetTop;
+               // 让鼠标焦点在遮罩中间
+                x=x-mask.offsetWidth/2;
+                y=y-mask.offsetHeight/2;
+                console.log(x);
+                x=x>0?x:0;
+                y=y>0?y:0;
+                //防止遮罩层超过小图片的右边
+                x=x>box.offsetWidth-mask.offsetWidth?box.offsetWidth-mask.offsetWidth:x;
+                y=y>box.offsetHeight-mask.offsetHeight?box.offsetHeight-mask.offsetHeight:y;
+                mask.style.left=x+"px";
+                mask.style.top=y+"px";
+
+                bigImg.style.left=-bigBox.offsetWidth/mask.offsetWidth*x +"px";
+                bigImg.style.top=-bigBox.offsetHeight/mask.offsetHeight*y +"px";
+
+            }
+            box.onmouseout=function(){
+                mask.style.display="none";
+                bigBox.style.display="none";
+            }
+
+        }
+    </script>
+</head>
+<body>
+<div class="box" id="box">
+    <div class="small" id="smallBox">
+        <img src="images/001.jpg" width="350" alt=""/>
+        <div class="mask" id="mask"></div>
+    </div>
+    <div class="big" id="bigBox">
+        <img id="bigImg" src="images/0001.jpg" width="800" alt=""/>
+    </div>
+</div>
+</body>
+</html>
